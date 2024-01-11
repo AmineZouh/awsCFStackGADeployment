@@ -1,0 +1,33 @@
+name: Deploy CloudFormation
+on:
+  push:
+    branches:
+    - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Configure AWS CLI
+        run: |
+          echo "[default]
+          aws_access_key_id = ${{ secrets.ACCESS_KEY_ID }}
+          aws_secret_access_key = ${{ secrets.SECRET_ACCESS_KEY }}" >
+          ~/.aws/credentials
+      - name: Deploy CloudFormation Stack
+        run: |
+          aws cloudformation create-stack --stack-name s3bucket_read_write_stack \
+          --template-body file://cloudFormationTemplate.yaml \
+          --region us-east-1 # Replace with your desired AWS region
+      - name: Wait for Stack to Complete
+        run: |
+          aws cloudformation wait stack-create-complete --stack-name s3bucket_read_write_stack \
+          --region us-east-1 # Replace with your desired AWS region
+      - name: Display Stack Outputs
+        run: |
+          aws cloudformation describe-stacks --stack-name s3bucket_read_write_stack \
+          --query 'Stacks[0].Outputs' \
+          --output table \
+          --region us-east-1 # Replace with your desired AWS region
+          capabilities: CAPABILITY_NAMED_IAM
