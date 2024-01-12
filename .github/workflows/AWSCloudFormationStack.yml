@@ -12,14 +12,14 @@ jobs:
       - name: Checkout code from master branch
         uses: actions/checkout@v2
 
-      - name: Configure AWS Credentials
+      - name: Configure AWS Credentials to have access to cloudFormation service
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.ACCESS_KEY_SECRET }}
           aws-region: us-east-1
 
-      - name: Deploy to AWS CloudFormation
+      - name: Deploy to AWS CloudFormation using Github Action
         uses: aws-actions/aws-cloudformation-github-deploy@v1
         with:
           name: tekloon-test-stack
