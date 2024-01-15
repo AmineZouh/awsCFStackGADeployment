@@ -4,7 +4,7 @@ Resources:
   MyS3Bucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: s3bucket-lambda-metaverse8889999
+      BucketName: s3bucket-lambda-8889999
 
   MyLambdaRole:
     Type: AWS::IAM::Role
@@ -22,7 +22,7 @@ Resources:
   MyLambdaFunction1:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: lambda-write-metaverse-888999
+      FunctionName: lambda-write-888999
       Code:
         ZipFile: |
           import csv
@@ -37,7 +37,7 @@ Resources:
               writer = csv.writer(f)
               writer.writerow(header)
               writer.writerows(data)
-            bucket = 's3bucket-lambda-metaverse8889999'
+            bucket = 's3bucket-lambda-8889999'
             s3 = boto3.client('s3')
             s3.upload_file('/tmp/' + filename, bucket, filename)
       Handler: index.lambda_handler
@@ -47,13 +47,13 @@ Resources:
   MyLambdaFunction2:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: lambda-read-metaverse-888999
+      FunctionName: lambda-read-888999
       Code:
         ZipFile: |
           import boto3
           def lambda_handler(event, context):
             s3 = boto3.client('s3')
-            bucket_name = 's3bucket-lambda-metaverse8889999'
+            bucket_name = 's3bucket-lambda-8889999'
             object_key = 'people.csv'
             try:
               response = s3.get_object(Bucket=bucket_name, Key=object_key)
